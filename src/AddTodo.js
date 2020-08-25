@@ -1,15 +1,27 @@
-import React from 'react'
-import {View, StyleSheet, TextInput, Button} from 'react-native'
+import React, {useState} from 'react'
+import {View, StyleSheet, TextInput, Button, Alert} from 'react-native'
 
-export const AddTodo = ({ onSubmit }) => {
+export const AddTodo = ({onSubmit}) => {
+
+    const [value, setValue] = useState('')
 
     const pressHandler = () => {
-        onSubmit('Test todo')
+        if (value.trim()) {
+            onSubmit(value)
+            setValue('')
+        } else {
+            Alert.alert('Вы ничего не ввели')
+        }
     }
 
     return (
         <View style={styles.block}>
-            <TextInput style={styles.input}/>
+            <TextInput
+                style={styles.input}
+                onChangeText={setValue}
+                value={value}
+                placeholder="Чем бы вы хотели заняться?"
+            />
             <Button title="Добавить" onPress={pressHandler}/>
         </View>
     )
@@ -20,13 +32,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        marginBottom: 15
     },
     input: {
         width: '70%',
         borderStyle: 'solid',
         borderBottomWidth: 2,
         borderBottomColor: '#3949ab'
-
     }
 })
