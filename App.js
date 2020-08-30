@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, FlatList, Alert} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Alert} from 'react-native';
 import {Navbar} from "./src/components/Navbar";
 import {MainScreen} from "./src/screens/MainScreen";
 import {TodoScreen} from "./src/screens/TodoScreen";
 
 export default function App() {
-    const [todoId, setTodoId] = useState(2)
-    const [todos, setTodos] = useState([
-        {id: 1, title: 'Выучить React Native'},
-        {id: 2, title: 'Написать приложение'}
-    ])
+    const [todoId, setTodoId] = useState(null)
+    const [todos, setTodos] = useState([])
 
     const addTodo = title => {
 
@@ -40,7 +37,15 @@ export default function App() {
             ],
             { cancelable: false }
         )
+    }
 
+    const updateTodo = (id, title) => {
+        setTodos(old => old.map(todo => {
+            if (todo.id === id) {
+                todo.title = title
+            }
+            return todo
+        }))
     }
 
     let content = (
@@ -54,7 +59,7 @@ export default function App() {
 
     if (todoId) {
         const selectedTodo = todos.find(todo => todo.id === todoId)
-        content = <TodoScreen goBack={() => setTodoId(null)} todo={selectedTodo} onRemove={removeTodo}/>
+        content = <TodoScreen goBack={() => setTodoId(null)} todo={selectedTodo} onRemove={removeTodo} onSave={updateTodo}/>
     }
 
     return (
