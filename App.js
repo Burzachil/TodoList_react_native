@@ -1,12 +1,35 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, Alert} from 'react-native';
-import {Navbar} from "./src/components/Navbar";
-import {MainScreen} from "./src/screens/MainScreen";
-import {TodoScreen} from "./src/screens/TodoScreen";
+import React, {useState} from 'react'
+import {StyleSheet, View, Alert, Dimensions} from 'react-native'
+import * as Font from 'expo-font'
+import {AppLoading} from 'expo'
+
+import {Navbar} from "./src/components/Navbar"
+import {MainScreen} from "./src/screens/MainScreen"
+import {TodoScreen} from "./src/screens/TodoScreen"
+import {THEME} from "./src/theme";
+
+async function loadApplication() {
+    await Font.loadAsync({
+        'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+        'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
+    })
+}
 
 export default function App() {
+    const [isReady, setIsReady] = useState(false)
     const [todoId, setTodoId] = useState(null)
-    const [todos, setTodos] = useState([])
+    const [todos, setTodos] = useState([
+        {id: 1, title: 'Выучить React Native'}
+        ]
+    )
+
+    if (!isReady) {
+        return <AppLoading
+            startAsync={loadApplication}
+            onError={err => console.log(err)}
+            onFinish={() => setIsReady(true)}
+        />
+    }
 
     const addTodo = title => {
 
@@ -74,7 +97,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 30,
+        paddingHorizontal: THEME.PADDING_HORIZONTAL,
         paddingVertical: 20
     }
 });

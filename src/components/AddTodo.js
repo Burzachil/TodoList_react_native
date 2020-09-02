@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, TextInput, Button, Alert} from 'react-native'
-import {THEME} from "../theme";
+import {View, StyleSheet, TextInput, Alert, Keyboard} from 'react-native'
+import { Entypo } from '@expo/vector-icons'
+import {THEME} from "../theme"
 
 export const AddTodo = ({onSubmit}) => {
 
@@ -10,6 +11,7 @@ export const AddTodo = ({onSubmit}) => {
         if (value.trim()) {
             onSubmit(value)
             setValue('')
+            Keyboard.dismiss()
         } else {
             Alert.alert('Вы ничего не ввели')
         }
@@ -23,7 +25,9 @@ export const AddTodo = ({onSubmit}) => {
                 value={value}
                 placeholder="Чем бы вы хотели заняться?"
             />
-            <Button title="Добавить" onPress={pressHandler}/>
+            <Entypo.Button onPress={pressHandler} name="add-to-list">
+                Добавить
+            </Entypo.Button>
         </View>
     )
 }
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     input: {
-        width: '70%',
+        width: '60%',
         borderStyle: 'solid',
         borderBottomWidth: 2,
         borderBottomColor: THEME.MAIN_COLOR
