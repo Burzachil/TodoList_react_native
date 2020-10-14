@@ -58,7 +58,6 @@ export const TodoState = ({children}) => {
             showError('Что-то пошло не так... ')
             console.log(e)
         }
-        
     }
 
     const fetchTodos = async () => {
